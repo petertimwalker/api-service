@@ -7,5 +7,7 @@ peterwalker.xyz/bookapp fetches this api key by calling https://api.peterwalker.
 This is important because Single Page Applications expose any secrets they are built with.
 
 I use certbot to create the https certifications
+
 ```sudo yum install -y certbot```
+
 ```sudo certbot certonly --standalone -d api.peterwalker.xyz```
