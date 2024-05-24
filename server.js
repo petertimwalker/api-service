@@ -4,6 +4,8 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 443;
+const dotenv = require('dotenv');
+dotenv.config();
 
 // Use CORS middleware to allow requests from all origins
 app.use(cors());
