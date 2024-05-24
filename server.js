@@ -1,3 +1,5 @@
+const https = require('https');
+const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -15,17 +17,24 @@ app.use((req, res, next) => {
   next();
 });
 
+// Route for the root URL '/'
 app.get('/', (req, res) => {
-  console.log(`request from ${req}`);
   res.send('Hi from api.peterwalker.xyz');
 });
 
+// Route for '/api/key'
 app.get('/api/key', (req, res) => {
-  console.log(`request from ${req}`);
   res.json({ apiKey: API_KEY });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// HTTPS options
+const options = {
+  key: fs.readFileSync('server.key'),
+  cert: fs.readFileSync('server.crt')
+};
+
+// Start the HTTPS server
+https.createServer(options, app).listen(PORT, () => {
+  console.log(`HTTPS Server is running on port ${PORT}`);
 });
 
