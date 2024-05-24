@@ -3,7 +3,7 @@ const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 443;
 
 // Use CORS middleware to allow requests from all origins
 app.use(cors());
@@ -29,8 +29,9 @@ app.get('/api/key', (req, res) => {
 
 // HTTPS options
 const options = {
-  key: fs.readFileSync('server.key'),
-  cert: fs.readFileSync('server.crt')
+  key: fs.readFileSync('/etc/letsencrypt/live/api.peterwalker.xyz/privkey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/api.peterwalker.xyz/cert.pem'),
+  ca: fs.readFileSync('/etc/letsencrypt/live/api.peterwalker.xyz/chain.pem')
 };
 
 // Start the HTTPS server
