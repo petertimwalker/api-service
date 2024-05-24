@@ -10,6 +10,7 @@ app.use(cors());
 const API_KEY = process.env.API_KEY || 'API_KEY not defined';
 
 app.get('/api/key', (req, res) => {
+  console.log(`request from ${req}`);
   res.json({ apiKey: API_KEY });
 });
 
