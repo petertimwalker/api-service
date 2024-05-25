@@ -13,4 +13,4 @@ I use certbot to create the https certifications
 ```sudo certbot certonly --standalone -d api.peterwalker.xyz```
 
 I run this process in the background of my EC2 server using
-```nohup sudo node server.js &```
+```sudo pm2 start server.js```
