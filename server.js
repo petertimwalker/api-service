@@ -8,9 +8,11 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 // Use CORS middleware to allow requests from all origins
-app.use(cors({
-  origin: 'https://peterwalker.xyz',
-}));
+app.use(
+  cors({
+    origin: 'https://peterwalker.xyz',
+  }),
+);
 
 // Store your API key securely in an environment variable
 const API_KEY = process.env.API_KEY || 'API_KEY not defined';
@@ -35,11 +37,10 @@ app.get('/api/key', (req, res) => {
 const options = {
   key: fs.readFileSync('/etc/letsencrypt/live/api.peterwalker.xyz/privkey.pem'),
   cert: fs.readFileSync('/etc/letsencrypt/live/api.peterwalker.xyz/cert.pem'),
-  ca: fs.readFileSync('/etc/letsencrypt/live/api.peterwalker.xyz/chain.pem')
+  ca: fs.readFileSync('/etc/letsencrypt/live/api.peterwalker.xyz/chain.pem'),
 };
 
 // Start the HTTPS server
 https.createServer(options, app).listen(PORT, () => {
   console.log(`HTTPS Server is running on port ${PORT}`);
 });
-

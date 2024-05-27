@@ -8,9 +8,9 @@ This is important because Single Page Applications expose any secrets they are b
 
 I use certbot to create the https certifications
 
-```sudo yum install -y certbot```
+`sudo yum install -y certbot`
 
-```sudo certbot certonly --standalone -d api.peterwalker.xyz```
+`sudo certbot certonly --standalone -d api.peterwalker.xyz`
 
 I run this process in the background of my EC2 server using
-```sudo pm2 start server.js```
+`sudo pm2 start server.js`
