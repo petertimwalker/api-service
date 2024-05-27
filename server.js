@@ -1,18 +1,10 @@
-const https = require('https');
-const fs = require('fs');
 const express = require('express');
-const cors = require('cors');
 const app = express();
-const PORT = process.env.PORT || 443;
 const dotenv = require('dotenv');
 dotenv.config();
 
-// Use CORS middleware to allow requests from all origins
-app.use(
-  cors({
-    origin: 'https://peterwalker.xyz',
-  }),
-);
+const isProduction = process.env.NODE_ENV === 'production';
+const PORT = isProduction ? 443 : 3001;
 
 // Store your API key securely in an environment variable
 const API_KEY = process.env.API_KEY || 'API_KEY not defined';
@@ -33,14 +25,32 @@ app.get('/api/key', (req, res) => {
   res.json({ apiKey: API_KEY });
 });
 
-// HTTPS options
-const options = {
-  key: fs.readFileSync('/etc/letsencrypt/live/api.peterwalker.xyz/privkey.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/live/api.peterwalker.xyz/cert.pem'),
-  ca: fs.readFileSync('/etc/letsencrypt/live/api.peterwalker.xyz/chain.pem'),
-};
+if (isProduction) {
+  const https = require('https');
+  const fs = require('fs');
+  const cors = require('cors');
 
-// Start the HTTPS server
-https.createServer(options, app).listen(PORT, () => {
-  console.log(`HTTPS Server is running on port ${PORT}`);
-});
+  app.use(
+    cors({
+      origin: 'https://peterwalker.xyz',
+    }),
+  );
+
+  const options = {
+    key: fs.readFileSync(
+      '/etc/letsencrypt/live/api.peterwalker.xyz/privkey.pem',
+    ),
+    cert: fs.readFileSync('/etc/letsencrypt/live/api.peterwalker.xyz/cert.pem'),
+    ca: fs.readFileSync('/etc/letsencrypt/live/api.peterwalker.xyz/chain.pem'),
+  };
+
+  https.createServer(options, app).listen(PORT, () => {
+    console.log(`HTTPS Server is running on port ${PORT}`);
+  });
+} else {
+  const http = require('http');
+
+  http.createServer(app).listen(PORT, () => {
+    console.log(`HTTP Server is running on port ${PORT}`);
+  });
+}
