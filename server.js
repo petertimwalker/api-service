@@ -6,17 +6,28 @@ const booksRouter = require('./books');
 const cors = require('cors');
 const allowedOrigins = ['https://peterwalker.xyz'];
 
+// Middleware to check origin and reject if not allowed
 app.use((req, res, next) => {
   const origin = req.headers.origin;
-  console.log(
-    `${req.method} ${req.url}: ${allowedOrigins.indexOf(origin) !== -1}`,
-  );
-  if (allowedOrigins.indexOf(origin) === -1) {
-    res.status(403).send('Access forbidden: Origin not allowed');
-  } else {
-    next();
+  console.log(`Request origin: ${origin}`);
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
   }
+  next();
 });
+
+// CORS configuration
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) {
+      return callback(new Error('Origin not specified'), false);
+    }
+    if (allowedOrigins.indexOf(origin) === -1) {
+      return callback(new Error('Not allowed by CORS'), false);
+    }
+    return callback(null, true);
+  }
+}));
 
 const isProduction = process.env.NODE_ENV === 'production';
 const PORT = isProduction ? 443 : 3001;
