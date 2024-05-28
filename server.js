@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
+const booksRouter = require('./books');
+const cors = require('cors');
+app.use(cors());
 dotenv.config();
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -25,10 +28,11 @@ app.get('/api/key', (req, res) => {
   res.json({ apiKey: API_KEY });
 });
 
+app.use('/api/books', booksRouter);
+
 if (isProduction) {
   const https = require('https');
   const fs = require('fs');
-  const cors = require('cors');
 
   app.use(
     cors({
