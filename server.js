@@ -50,8 +50,7 @@ if (isProduction) {
     key: fs.readFileSync(
       '/etc/letsencrypt/live/api.peterwalker.xyz/privkey.pem',
     ),
-    cert: fs.readFileSync('/etc/letsencrypt/live/api.peterwalker.xyz/cert.pem'),
-    ca: fs.readFileSync('/etc/letsencrypt/live/api.peterwalker.xyz/chain.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/api.peterwalker.xyz/fullchain.pem'),
   };
 
   https.createServer(options, app).listen(PORT, () => {
