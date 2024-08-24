@@ -21,4 +21,4 @@ I run this process in the background of my EC2 server using
 3. npm install
 4. NODE_ENV=development npm start
 5. Now this server is running on port 3001 http://localhost:3001
-6. Set up local dev for the bookapp here
+6. Set up local dev for the bookapp [here](https://github.com/petertimwalker/portfolio-site/blob/main/README.md#local-dev)
